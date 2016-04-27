@@ -9,19 +9,47 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<Location> locs;
-
+    private Button butt;
+    private boolean useGPS;
+    private String button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        button = "Start GPS";
+        butt = (Button) findViewById(R.id.Buttgps);
+        butt.setText(button);
+        butt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                useGPS = !useGPS;
+                if(button == "Start GPS"){
+                    button = "Stop GPS";
+                    butt.setText(button);
+                } else {
+                    button = "Start GPS";
+                    butt.setText(button);
+                }
+                if(useGPS){
+                    start();
+                } else {
+                    stop();
+                }
+            }
+        });
+    }
+    private void start(){
 
     }
+    private void stop(){
 
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
