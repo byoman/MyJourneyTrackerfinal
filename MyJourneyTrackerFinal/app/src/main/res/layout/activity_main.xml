@@ -9,7 +9,8 @@
 
     <com.example.dragonne.myjourneytrackerfinal.Graph
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/graph"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,14 +37,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/track"
-        android:text="jefhzhsgz"
+        android:text="GPS disabled"
         android:layout_above="@+id/Buttgps"
         android:layout_toEndOf="@+id/Buttgps" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Buttgps"
-        android:text=""
+        android:text="Start GPS"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="31dp" />

@@ -14,49 +14,80 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayList<Location> locs;
+    public static ArrayList<Location> locs;
+    public static int timecc;
     private Button butt;
-    private boolean useGPS;
-    private String button;
+    public static boolean useGPS;
+    private String button,timemessage,avemess,curmess;
     private LocationManager lm;
     private LocationListener ls;
+    public static TextView avespeed,curspeed,time,track;
+    public static float ave; //ceasar
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        locs = new ArrayList<Location>();
+        useGPS = false;
         button = "Start GPS";
+        timemessage = "Time :";
+        curmess = "Current Speed : ";
+        avemess = "Average speed : ";
+        final Graph graph = (Graph) findViewById(R.id.graph);
+        timecc=0;
+        curspeed = (TextView) findViewById(R.id.curspeed);
+        avespeed = (TextView) findViewById(R.id.avespeed);
+        time = (TextView) findViewById(R.id.time);
+        track = (TextView) findViewById(R.id.track);
         butt = (Button) findViewById(R.id.Buttgps);
         butt.setText(button);
         butt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                useGPS = !useGPS;
                 if (button == "Start GPS") {
+                    track.setText("GPS Active");
+                    useGPS = true;
                     button = "Stop GPS";
                     butt.setText(button);
                 } else {
                     button = "Start GPS";
+                    track.setText("GPS Inactive");
+                    useGPS = false;
                     butt.setText(button);
+                    timecc=0;
                 }
-                if (useGPS) {
-                    start();
-                } else {
-                    stop();
-                }
+
             }
         });
         lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         ls = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                locs.add(location);
-                if(locs.size()>100){
-                    locs.remove(0);
-                }
+
+                    locs.add(location);
+                    if(locs.size()>100){
+                        locs.remove(0);
+                    }
+                    if(useGPS){
+                        ave = average();
+                        avespeed.setText(avemess+ave+"km/h");
+                        curspeed.setText(curmess+(locs.get(locs.size()-1).getSpeed())*3.6f+"km/h");
+                        timecc++;
+                        time.setText(timemessage+timecc+"s");
+                        graph.invalidate();
+                    } else {
+                        avespeed.setText(avemess+"N/A");
+                        curspeed.setText(curmess+"N/A");
+                        time.setText(timemessage+"N/A");
+                        timecc = 0;
+                    }
+
+
             }
 
             @Override
@@ -81,11 +112,19 @@ public class MainActivity extends AppCompatActivity {
             Log.e("GPS",e.getMessage());
         }
     }
-    private void start(){
-
-    }
-    private void stop(){
-
+    public static float average(){
+        float res = 0;
+        if(locs.size()==0){
+            return res;
+        } else if( locs.size() == 1){
+            return locs.get(0).getSpeed()*3.6f;
+        } else {
+            for(int i = 0; i<locs.size();i++){
+                res+= (locs.get(i).getSpeed())*3.6f;
+            }
+            res /= locs.size();
+            return res;
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
