@@ -81,10 +81,12 @@ public class MainActivity extends AppCompatActivity {
                         time.setText(timemessage+timecc+"s");
                         graph.invalidate();
                     } else {
+                        locs = new ArrayList<Location>();
                         avespeed.setText(avemess+"N/A");
                         curspeed.setText(curmess+"N/A");
                         time.setText(timemessage+"N/A");
                         timecc = 0;
+                        graph.invalidate();
                     }
 
 

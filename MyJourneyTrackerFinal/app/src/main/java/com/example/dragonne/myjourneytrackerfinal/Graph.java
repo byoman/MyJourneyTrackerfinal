@@ -34,8 +34,8 @@ public class Graph extends View{
             for(int i = 1; i<MainActivity.locs.size();i++){
                 float old = MainActivity.locs.get(i-1).getSpeed()*3.6f;
                 float cur = MainActivity.locs.get(i).getSpeed() * 3.6f;
-                float w1 = (width/MainActivity.locs.size()+2)*(i-1);
-                float w2=(width/MainActivity.locs.size()+2)*(i);
+                float w1 = (width/100)*(i-1);
+                float w2=(width/100)*(i);
                 float h1 = (height-(old*(height/60)));
                 float h2 = (height-(cur*(height/60)));
                 canvas.drawLine(w1,h1,w2,h2,paint);
